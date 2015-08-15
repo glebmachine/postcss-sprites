@@ -171,6 +171,9 @@ function setupFilterBy(opts) {
 	// Remove non existing images
 	opts.filterBy.unshift(function(image) {
 		return Q.Promise(function(resolve, reject) {
+			image.tag = image.path.split('#')[1] || false;
+			image.groups = [image.tag || 'default'];
+			image.path = image.path.split('#')[0];
 			fs.exists(image.path, function(exists) {
 				if (!exists) {
 					log('Skip ' + image.url + ' - not exist.',  opts.verbose);
@@ -603,7 +606,7 @@ function isImageSupported(url) {
  * @return {Boolean}
  */
 function isRetinaImage(url) {
-	return /@(\d)x\.[a-z]{3,4}$/gi.test(url);
+	return /@(\d)x\.[a-z]{3,4}$/gi.test(url.split('#')[0]);
 }
 
 /**
@@ -613,7 +616,7 @@ function isRetinaImage(url) {
  * @return {Number}
  */
 function getRetinaRatio(url) {
-	var matches = /@(\d)x\.[a-z]{3,4}$/gi.exec(url);
+	var matches = /@(\d)x\.[a-z]{3,4}$/gi.exec(url.split('#')[0]);
 	var ratio   = lodash.parseInt(matches[1]);
 
 	return ratio;
