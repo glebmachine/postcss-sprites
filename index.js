@@ -174,6 +174,7 @@ function setupFilterBy(opts) {
 			image.tag = image.path.split('#')[1] || false;
 			image.groups = [image.tag || 'default'];
 			image.path = image.path.split('#')[0];
+			if (/^\//.test(image.path)) image_path = '.'+image_path;
 			fs.exists(image.path, function(exists) {
 				if (!exists) {
 					log('Skip ' + image.url + ' - not exist.',  opts.verbose);
