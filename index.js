@@ -666,7 +666,7 @@ function mask(toggle) {
  */
 function makeSpritePath(opts, groups) {
 	var groups = groups || [];
-	var base   = path.dirname(opts.spritePath);
+	var base   = opts.spritePath;
 	var file   = 'sprite.png';
 	var parts;
 
