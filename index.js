@@ -86,7 +86,8 @@ function plugin(opts) {
 				return updateReferences(images, opts, sprites, css);
 			})
 			.then(function() {
-				log('Done.', options.verbose);
+				// we don't need no education
+				//log('Done.', options.verbose);
 			})
 			.catch(function(err) {
 				if (err) {
@@ -136,7 +137,6 @@ function getImages(css, opts) {
 
 				// Get the path to the image.
 				image.path = path.resolve(styleFilePath.substring(0, styleFilePath.lastIndexOf(path.sep)), image.url);
-
 				// remove get params from path;
 				image.path = image.path.split('?')[0];
 				// skip inlined
@@ -408,8 +408,8 @@ function runSpriteSmith(images, opts) {
 function saveSprites(images, opts, sprites) {
 	return Q.Promise(function(resolve, reject) {
 
-		if (!fs.existsSync(path.dirname(opts.spritePath))) {
-			mkdirp.sync(path.dirname(opts.spritePath));
+		if (!fs.existsSync(opts.spritePath)) {
+			mkdirp.sync(opts.spritePath);
 		}
 
 		var all = lodash
