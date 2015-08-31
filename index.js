@@ -416,6 +416,7 @@ function saveSprites(images, opts, sprites) {
 			.chain(sprites)
 			.map(function(sprite) {
 				sprite.path = makeSpritePath(opts, sprite.groups);
+				console.log(sprite.path);
 
 				return Q.nfcall(fs.writeFile, sprite.path, new Buffer(sprite.image, 'binary'))
 					.then(function() {
@@ -666,7 +667,7 @@ function mask(toggle) {
 function makeSpritePath(opts, groups) {
 	var groups = groups || [];
 	var base   = path.dirname(opts.spritePath);
-	var file   = path.basename(opts.spritePath);
+	var file   = 'sprite.png';
 	var parts;
 
 	if (!groups.length) {
@@ -680,7 +681,7 @@ function makeSpritePath(opts, groups) {
 		parts.shift();
 	}
 
-	return path.join(base, parts.join('.'));
+	return path.join(base, parts.join('.').replace('.@','@'));
 }
 
 /**
