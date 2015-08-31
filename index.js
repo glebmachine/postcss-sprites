@@ -137,7 +137,12 @@ function getImages(css, opts) {
 				// Get the path to the image.
 				image.path = path.resolve(styleFilePath.substring(0, styleFilePath.lastIndexOf(path.sep)), image.url);
 
+				// remove get params from path;
+				image.path = image.path.split('?')[0];
+				// skip inlined
+				if (/^data\:image/i.test(image.url)) return;
 				images.push(image);
+
 			} else {
 				log('Skip ' + image.url + ' - not supported.', opts.verbose);
 			}
