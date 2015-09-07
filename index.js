@@ -33,6 +33,7 @@ var BACKGROUND_SIZE   = 'background-size';
  */
 var defaults = {
 	stylesheetPath  : './',
+  imagePath       : '.',
 	spritePath      : './sprite.png',
 	skipPrefix      : false,
 	outputDimensions: false,
@@ -136,7 +137,11 @@ function getImages(css, opts) {
 				}
 
 				// Get the path to the image.
-				image.path = path.resolve(styleFilePath.substring(0, styleFilePath.lastIndexOf(path.sep)), image.url);
+        if (/^\//.test(image.url)) {
+          image.path = path.resolve(opts.imagePath+image.url);
+        } else {
+				  image.path = path.resolve(styleFilePath.substring(0, styleFilePath.lastIndexOf(path.sep)), image.url);
+        }
 				// remove get params from path;
 				image.path = image.path.split('?')[0];
 				// skip inlined
@@ -180,6 +185,7 @@ function setupFilterBy(opts) {
 			image.groups = [image.tag || 'default'];
 			image.path = image.path.split('#')[0];
 			if (/^\//.test(image.path)) image.path = '.'+image.path;
+      console.log('CHECK: ',image.path);
 			fs.exists(image.path, function(exists) {
 				if (!exists) {
 					log('Skip ' + image.url + ' - not exist.',  opts.verbose);
